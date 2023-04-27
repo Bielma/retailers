@@ -1,39 +1,26 @@
 import { useState } from 'react'
 
 import './App.css'
-
+import { useEffect } from 'react'
+import api from '../../services/api'
 function App() {
   const [retailers, setRetailers] = useState([
     {
       id: 1,
-      retailer: 'Oxxo :v',
-      cuit: 'ASDA',
-      concept1: 'concept1',
-      concept2: 'concept2',
-      concept3: 'concept3',
-      concept4: 'concept4',
-      concept5: 'concept5',
-      concept6: 'concept6',
-      balance: 0,
+      retailer: 'Oxxo',
+      cuit: '30-50000661-3',
+      concept1: 19.99,
+      concept2: 245.12,
+      concept3: 1234.00,
+      concept4: 123123.00,
+      concept5: 875.90,
+      concept6: 12356.00,
+      balance: 100000,
       active: true,
       lastSale: '22/02/1997'
 
     },
-    {
-      id: 2,
-      retailer: 'Oxxo :v',
-      cuit: 'ASDA',
-      concept1: 'concept1',
-      concept2: 'concept2',
-      concept3: 'concept3',
-      concept4: 'concept4',
-      concept5: 'concept5',
-      concept6: 'concept6',
-      balance: 0,
-      active: true,
-      lastSale: '22/02/1997'
 
-    }
   ])
   const headers = [
     "ID",
@@ -49,7 +36,16 @@ function App() {
     "Activo",
     "Ultima Venta",
   ]
+  useEffect(() => {
+    fetchData()
+  }, [])
 
+  const fetchData = async () => {
+    const response = await api.stores.getStores();
+    if (response.succcess) {
+      setRetailers(response.data || [])
+    }
+  }
   return (
     <>
       <div>
