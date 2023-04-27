@@ -157,9 +157,9 @@ function App() {
       </div>
 
 
-      <p className="read-the-docs">
-
-      </p>
+      <a href='https://github.com/Bielma/retailers' className="read-the-docs">
+        Repo
+      </a>
     </>
   )
 }
