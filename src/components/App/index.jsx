@@ -56,9 +56,13 @@ function App() {
   }, [params.filter, params.orderBy, paginationData.page])
 
   const fetchData = async () => {
-    const response = await api.stores.getStores(params, page + 1);
+    const response = await api.stores.getStores(params, paginationData);
     if (response.succcess) {
-      setRetailers(response.data || [])
+      setRetailers(response?.data || [])
+      setPaginationData({
+        ...paginationData,
+        total: response?.total || 100000000,
+      })
     }
   }
   const handleChange = (event) => {
@@ -70,6 +74,7 @@ function App() {
 
 
     setParams(_params)
+    setPaginationData({ ...paginationData, page: 1 })
   }
 
   const handleSubmit = (e) => {
