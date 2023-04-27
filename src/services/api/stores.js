@@ -1,7 +1,8 @@
 import { sendRequest } from "../../util/utils";
 
-const getStores = async (params, page) => {
+const getStores = async (params, paginationData) => {
   const { orderBy, search, filter } = params;
+  const { page, rowsPerPage } = paginationData;
   const query =
     "{" +
     `${
@@ -11,7 +12,8 @@ const getStores = async (params, page) => {
     }` +
     `${filter ? `${search ? `,"active"` : "active"}:${filter}` : ""}` +
     "}" +
-    `${orderBy ? `&sort=${orderBy}` : ""}`;
+    `${orderBy ? `&sort=${orderBy}` : ""}` +
+    `&skip=${page}&max=${rowsPerPage}`;
   const route = `/stores/?q=${query}`,
     request = {
       method: "GET",
