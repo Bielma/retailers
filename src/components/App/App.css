@@ -47,3 +47,7 @@ table th {
   background-color: #04aa6d;
   color: white;
 }
+.stores__pagination {
+  display: flex;
+  justify-content: end;
+}

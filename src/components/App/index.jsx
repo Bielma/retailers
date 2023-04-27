@@ -1,8 +1,9 @@
 import { useState } from 'react'
-
 import './App.css'
 import { useEffect } from 'react'
 import api from '../../services/api'
+import Pagination from '../Pagination'
+
 function App() {
   const [retailers, setRetailers] = useState([
     {
@@ -28,6 +29,14 @@ function App() {
     filter: '',
     orderBy: ''
   })
+  const [page, setPage] = useState(0)
+
+  const [paginationData, setPaginationData] = useState({
+    page: 1,
+    total: 10000000,
+    rowsPerPage: 10
+  })
+
   const headers = [
     "ID",
     "Comercio",
@@ -44,10 +53,10 @@ function App() {
   ]
   useEffect(() => {
     fetchData()
-  }, [params.filter, params.orderBy])
+  }, [params.filter, params.orderBy, paginationData.page])
 
   const fetchData = async () => {
-    const response = await api.stores.getStores(params, 1);
+    const response = await api.stores.getStores(params, page + 1);
     if (response.succcess) {
       setRetailers(response.data || [])
     }
@@ -66,6 +75,14 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     fetchData();
+  }
+  const handlePageChange = (page) => {
+
+    const _paginationData = {
+      ...paginationData,
+      page: page
+    }
+    setPaginationData(_paginationData)
   }
   return (
     <>
@@ -128,6 +145,15 @@ function App() {
           }
 
         </table>
+        <div className='stores__pagination'>
+          <Pagination
+            currentPage={paginationData.page}
+            totalCount={paginationData.total}
+            pageSize={paginationData.rowsPerPage}
+            onPageChange={handlePageChange}
+          />
+        </div>
+
       </div>
 
 
