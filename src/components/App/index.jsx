@@ -22,6 +22,12 @@ function App() {
     },
 
   ])
+
+  const [params, setParams] = useState({
+    search: '',
+    filter: '',
+    orderBy: ''
+  })
   const headers = [
     "ID",
     "Comercio",
@@ -38,13 +44,28 @@ function App() {
   ]
   useEffect(() => {
     fetchData()
-  }, [])
+  }, [params.filter, params.orderBy])
 
   const fetchData = async () => {
-    const response = await api.stores.getStores();
+    const response = await api.stores.getStores(params, 1);
     if (response.succcess) {
       setRetailers(response.data || [])
     }
+  }
+  const handleChange = (event) => {
+    //setSearch(event.target.value)
+    const _params = {
+      ...params,
+      [event.target.name]: event.target.value
+    }
+
+
+    setParams(_params)
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchData();
   }
   return (
     <>
@@ -52,7 +73,33 @@ function App() {
 
       </div>
       <h1>Comercios</h1>
-      <div className="card">
+      <div className="stores">
+        <div className='stores__search'>
+          <form onSubmit={handleSubmit}>
+            <input
+              className='search--input'
+              name='search'
+              type='search'
+              value={params.search}
+
+              onChange={handleChange} />
+          </form>
+
+
+
+        </div>
+        <div className='stores__filters'>
+          <select name="filter" value={params.filter} onChange={handleChange}>
+            <option value="">Estatus</option>
+            <option value="1" >Activo</option>
+            <option value="0">Inactivo</option>
+          </select>
+          <select name="orderBy" value={params.orderBy} onChange={handleChange}>
+            <option value="">Ordenar Por</option>
+            <option value="cuit" >CUIT</option>
+            <option value="stores">Comercio</option>
+          </select>
+        </div>
 
         <table style={{ overflowX: "auto" }}>
           <tr>
