@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import './App.css'
+import './App.scss'
 import { useEffect } from 'react'
 import api from '../../services/api'
 import Pagination from '../Pagination'
@@ -96,32 +96,36 @@ function App() {
       </div>
       <h1>Comercios</h1>
       <div className="stores">
-        <div className='stores__search'>
-          <form onSubmit={handleSubmit}>
-            <input
-              className='search--input'
-              name='search'
-              type='search'
-              value={params.search}
+        <div className='stores__header'>
+          <div className='header__search'>
+            <form onSubmit={handleSubmit}>
+              <input
+                placeholder='Search store'
+                className='search--input'
+                name='search'
+                type='search'
+                value={params.search}
 
-              onChange={handleChange} />
-          </form>
+                onChange={handleChange} />
+            </form>
 
 
 
+          </div>
+          <div className='header__filters'>
+            <select name="filter" value={params.filter} onChange={handleChange}>
+              <option value="">Estatus</option>
+              <option value="1" >Activo</option>
+              <option value="0">Inactivo</option>
+            </select>
+            <select name="orderBy" value={params.orderBy} onChange={handleChange}>
+              <option value="">Ordenar Por</option>
+              <option value="cuit" >CUIT</option>
+              <option value="stores">Comercio</option>
+            </select>
+          </div>
         </div>
-        <div className='stores__filters'>
-          <select name="filter" value={params.filter} onChange={handleChange}>
-            <option value="">Estatus</option>
-            <option value="1" >Activo</option>
-            <option value="0">Inactivo</option>
-          </select>
-          <select name="orderBy" value={params.orderBy} onChange={handleChange}>
-            <option value="">Ordenar Por</option>
-            <option value="cuit" >CUIT</option>
-            <option value="stores">Comercio</option>
-          </select>
-        </div>
+
 
         <table style={{ overflowX: "auto" }}>
           <tr>
