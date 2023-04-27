@@ -46,11 +46,11 @@ const Pagination = (props) => {
       >
         <div className="arrow left"></div>
       </li>
-      {paginationRange.map((pageNumber) => {
+      {paginationRange.map((pageNumber, index) => {
         // If the pageItem is a DOT, render the DOTS unicode character
         if (pageNumber === DOTS) {
           return (
-            <li key={pageNumber} className="pagination-item dots">
+            <li key={`pagination-item-dots-${index}`} className="pagination-item dots">
               &#8230;
             </li>
           );
@@ -59,7 +59,7 @@ const Pagination = (props) => {
         // Render our Page Pills
         return (
           <li
-            key={pageNumber}
+            key={`pagination-item-${pageNumber}`}
             className={classnames("pagination-item", {
               selected: pageNumber === currentPage,
             })}
